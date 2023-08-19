@@ -10,6 +10,7 @@ import cookieParser from "cookie-parser"
 const app = express();
 dotenv.config();
 
+// initial connection
 const connect = async () => {
     try {
         await mongoose.connect(process.env.MONGO);
@@ -40,8 +41,10 @@ app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 
+
+// error handling
 app.use((err, req, res, next) => {
-    const errorStatus = err.Status || 500
+    const errorStatus = err.status || 500
     const errorMessage = err.message || "Something went wrong"
     return res.status(500).json({
         success: false,
